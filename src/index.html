@@ -5,10 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="chart.umd.js"></script>
-
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div><canvas id="myChart"></canvas></div>
+
+<div id="slct">
+  <select name="timeline" id="time-select" onchange="deteSelect()" >
+    <option value="" id="currentValue">Current month vs previous year’s month  </option>
+    <option value="month">Current month vs previous year’s month</option>
+    <option value="30days">Last 30 days</option>
+    <option value="90days">Last 90 days</option>
+    <option value="6month">Last 6 month</option>
+    <option value="year">Last year</option>
+  </select>
+</div>
+
+
+<div id="theChart">
+  <canvas id="myChart"></canvas>
+</div>
 
 <script src="utils.js"></script>
 <script src="script.js"></script>

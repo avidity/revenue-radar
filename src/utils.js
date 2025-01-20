@@ -1,3 +1,5 @@
+
+
 const Utils = {
     months: function(config) {
         const cfg = config || {};
@@ -45,7 +47,7 @@ const Utils = {
         let i, value;
 
         for (i = 0; i < count; ++i) {
-            value = (from[i] || 0) + Math.random() * (25-10) + 10;
+            value = (from[i] || 0) + Math.random() * (40-10) + 10;
             if (Math.random() <= continuity) {
                 data.push(Math.round(dfactor * value) / dfactor);
             } else {
@@ -55,11 +57,6 @@ const Utils = {
 
         return data;
     },
-    CHART_COLORS: {
-        red: 'rgb(255, 99, 132)',
-        blue: 'rgb(54, 162, 235)',
-        green: 'rgb(75, 192, 192)',
-    }
 };
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
