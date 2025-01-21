@@ -1,5 +1,3 @@
-
-
 const Utils = {
     months: function(config) {
         const cfg = config || {};

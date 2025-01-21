@@ -7,12 +7,11 @@
   <script src="chart.umd.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body >
 
 <div id="slct">
-  <select name="timeline" id="time-select" onchange="deteSelect()" >
-    <option value="" id="currentValue">Current month vs previous year’s month  </option>
-    <option value="month">Current month vs previous year’s month</option>
+  <select name="timeline" id="time-select" onchange="addData()" >
+    <option value="" id="currentValue">Current month vs previous year’s month  </option> 
     <option value="30days">Last 30 days</option>
     <option value="90days">Last 90 days</option>
     <option value="6month">Last 6 month</option>
@@ -20,6 +19,9 @@
   </select>
 </div>
 
+<br>
+<p id="a"></p>
+<br>
 
 <div id="theChart">
   <canvas id="myChart"></canvas>

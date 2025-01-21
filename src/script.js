@@ -1,36 +1,11 @@
-const date = new Date();
+// Global chart variable to reference later
+let chart;
 
+const DATA_COUNT = 23; // Initial count of months
+const NUMBER_CFG = { count: DATA_COUNT, min: -100, max: 100 };
 
-let day = date.getDate();
-let month = date.getMonth() + 1;
-let year = date.getFullYear();
-let dte;
-
-
-function deteSelect(){
-  dte = document.getElementById('time-select').value;
-
-  /*switch(dte){
-    case('30days'):
-      document.getElementById(currentValue).innerHTML=da+" "+MONTHS[month]+" - "+
-  }*/
-}
-
-
-
-
-const DATA_COUNT = 23;
-const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
-
-const DISPLAY = true;
-const BORDER = true;
-const CHART_AREA = true;
-const TICKS = true;
-
-
-
-
-const labels = Utils.months({count: 23});
+// Initial data setup for chart
+const labels = Utils.months({ count: DATA_COUNT });
 const data = {
   labels: labels,
   datasets: [
@@ -41,14 +16,13 @@ const data = {
       borderColor: 'rgb(0, 0, 0)',
       borderWidth: 3,
       stack: 'Stack 0',
-      animations:{
+      animations: {
         animation: {
           duration: 1000,
           easing: 'linear',
-          delay: undefined,
           loop: false,
-      }
-    },
+        },
+      },
     },
     {
       label: 'Dataset 2',
@@ -57,62 +31,119 @@ const data = {
       borderColor: 'rgb(0, 0, 0)',
       borderWidth: 3,
       stack: 'Stack 0',
-      animations:{
+      animations: {
         animation: {
           duration: 1000,
           easing: 'easeInOutQuad',
           delay: 1000,
           loop: false,
-      }
+        },
+      },
     },
-    },
-  ]
+  ],
 };
 
 
-window.onload = function() {
+// Chart initialization
+window.onload = function () {
+
+    fetch("../sample-data/last-30-days.json")
+    .then(response => response.json())
+    .then(data => {
+    console.log(data); // Logs the entire data object
+
+    // Access the individual properties
+    const days = data.data.labels; // Array of labels
+    const datasets = data.data.datasets; // Array of datasets
+
+    // Set the innerHTML of the element after the data is fetched
+    document.getElementById('a').innerHTML = days; 
+    })
+    .catch(error => console.error('Error loading JSON:', error));
+
+
   const ctx = document.getElementById('myChart').getContext('2d');
-  new Chart(ctx, {
-      type: 'bar', // or 'line', 'pie', etc.
-      data: data,
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'Chart.js Bar Chart - Stacked'
-          },
+  chart = new Chart(ctx, {
+    type: 'bar', // or 'line', 'pie', etc.
+    data: data,
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Chart.js Bar Chart - Stacked',
         },
-        responsive: true,
-        scales: {
-          x: {
+      },
+      responsive: true,
+      scales: {
+        x: {
           grid: {
-            display: false
-          }
+            display: false,
+          },
         },
         y: {
           grid: {
-            display: false
+            display: false,
           },
           ticks: {
-            //option 2, use callback to change labels to empty string
-            callback: () => ('')
-          }
-        }
+            callback: () => '',
+          },
         },
-          responsive: true,
-          plugins: {
-              legend: {
-                display: true,
-                  position: 'top',
-                  align: 'start',
-                  labels:{
-                    usePointStyle: true,
-                    boxWidth: 45,
-                    padding: 25,
-                  }
-              }
-          }
-      }
-  }
-);
+      },
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          align: 'start',
+          labels: {
+            usePointStyle: true,
+            boxWidth: 45,
+            padding: 25,
+          },
+        },
+      },
+    },
+  });
 };
+
+// Function to update chart with new data based on selected option
+function addData() {
+
+
+  const timeSelect = document.getElementById('time-select');
+  const selectedOption = timeSelect.value;
+
+  let newLabelCount = DATA_COUNT; // Default to 23 months
+
+  // Determine the new label count based on the selected option
+  switch (selectedOption) {
+    case '30days':
+      newLabelCount = 30;
+      break;
+    case '90days':
+      newLabelCount = 90;
+      break;
+    case '6month':
+      newLabelCount = 6;
+      break;
+    case 'year':
+      newLabelCount = 12;
+      break;
+    default:
+      newLabelCount = DATA_COUNT; // Default to the original 23 months
+      break;
+  }
+
+  // Update the labels with the new number of months
+
+  const newMonths = Utils.months({ count: newLabelCount });
+  chart.data.labels = newMonths;
+
+  // Update the datasets with new data points (matching the new label count)
+  chart.data.datasets[0].data = Utils.numbers({ count: newLabelCount, min: -100, max: 100 });
+  chart.data.datasets[1].data = Utils.whites({ count: newLabelCount, min: -100, max: 100 });
+
+  // Update the chart with the new data
+  chart.update();
+}
+
