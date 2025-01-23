@@ -1,3 +1,19 @@
-body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+#theChart{
+    padding: 2%;
+    background-color: rgb(237, 240, 247);
+    height: 500px;
+    width: 1500px;
+}
+
+
+#time-select{
+    background: none repeat scroll 0 0 #ffffff;
+    border: 0.3rem solid #2D3648;
+    border-radius: 5px 5px 5px 5px;
+    height: 2.8rem;
+    width: 12rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.2rem;
+}
+

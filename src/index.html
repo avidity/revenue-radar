@@ -1,17 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>RevenueRadar</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <header>
-            <h1>Revenue Radar</h1>
-        </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="chart.umd.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body >
+
+<div id="slct">
+  <select name="timeline" id="time-select" onchange="addData()" >
+    <option value="" id="currentValue">Current month vs previous year’s month  </option> 
+    <option value="30days">Last 30 days</option>
+    <option value="90days">Last 90 days</option>
+    <option value="6month">Last 6 month</option>
+    <option value="year">Last year</option>
+  </select>
+</div>
 
 
-        <script src="script.js"></script>
-    </body>
+
+<div id="theChart">
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="utils.js"></script>
+<script  src="script.js"></script>
+
+
+</body>
 </html>
+
