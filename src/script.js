@@ -10,7 +10,9 @@ const newChart = data => {
 
   // Access the individual properties
   const DATAS = data.data.labels; // Array of labels
-  const DATASET = data.data.datasets; // Array of datasets
+  const DATASET1 = data.data.datasetg; // Array of datasets
+  const DATASET2 = data.data.datasetw; // Array of datasets
+
 
 
   const JSONSDATASET = {
@@ -36,7 +38,25 @@ const newChart = data => {
       for (let i = 0; i < count; ++i) {
         // Assuming DATASET[0] is the dataset you're interested in
         // If DATASET is an array of datasets, you may need to modify this
-        const value = DATASET[0].data[i];  // Accessing the data array from the first dataset (adjust if needed)
+        const value = DATASET1[0].data[i];  // Accessing the data array from the first dataset (adjust if needed)
+        data.push(value);
+      }
+  
+      return data;
+    },
+
+    whiteData: function(config) {
+      const cfg = config || {};
+      const min = cfg.min || 0;
+      const max = cfg.max || 1;
+      const count =  theCount || 30; // Default to 30
+      const data = [];
+  
+      // Access the values from your DATASET and push them into the new dataset array
+      for (let i = 0; i < count; ++i) {
+        // Assuming DATASET[0] is the dataset you're interested in
+        // If DATASET is an array of datasets, you may need to modify this
+        const value = DATASET2[0].data[i];  // Accessing the data array from the first dataset (adjust if needed)
         data.push(value);
       }
   
@@ -68,7 +88,7 @@ const newChart = data => {
       },
       {
         label: 'Dataset 2',
-        data: Utils.whites(NUMBER_CFG),
+        data: JSONSDATASET.whiteData(NUMBER_CFG),
         backgroundColor: 'rgb(228, 228, 228)',
         borderColor: 'rgb(0, 0, 0)',
         borderWidth: 3,
@@ -174,11 +194,6 @@ function addData() {
       break;
   }
 
-
-  // Update the datasets with new data points (matching the new label count)
-
-  chart.data.datasets[1].data = Utils.whites({ count: newLabelCount, min: -100, max: 100 });
-
   // Update the chart with the new data
   chart.update();
   theCount=newLabelCount;
@@ -190,7 +205,8 @@ function addData() {
 
     // Access the individual properties
     const DATAS = data.data.labels; // Array of labels
-    const DATASET = data.data.datasets; // Array of datasets
+    const DATASET1 = data.data.datasetg; // Array of datasets
+    const DATASET2= data.data.datasetw; // Array of datasets
 
     let newLabelCount = DATA_COUNT; // Default to 30 (you can adjust this as needed)
 
@@ -217,7 +233,25 @@ function addData() {
         for (let i = 0; i < count; ++i) {
           // Assuming DATASET[0] is the dataset you're interested in
           // If DATASET is an array of datasets, you may need to modify this
-          const value = DATASET[0].data[i];  // Accessing the data array from the first dataset (adjust if needed)
+          const value = DATASET1[0].data[i];  // Accessing the data array from the first dataset (adjust if needed)
+          data.push(value);
+        }
+    
+        return data;
+      },
+
+      whiteData: function(config) {
+        const cfg = config || {};
+        const min = cfg.min || 0;
+        const max = cfg.max || 1;
+        const count =  theCount || 30; // Default to 30
+        const data = [];
+    
+        // Access the values from your DATASET and push them into the new dataset array
+        for (let i = 0; i < count; ++i) {
+          // Assuming DATASET[0] is the dataset you're interested in
+          // If DATASET is an array of datasets, you may need to modify this
+          const value = DATASET2[0].data[i];  // Accessing the data array from the first dataset (adjust if needed)
           data.push(value);
         }
     
@@ -226,13 +260,15 @@ function addData() {
     };
     
     // Get the updated labels by calling newDatas.days() with the desired configuration
-    const updatedLabels = JSONSDATASET.days({ count: newLabelCount, section: 5 }); // Example configuration
+    const updatedLabels = JSONSDATASET.days({ count: newLabelCount }); // Example configuration
     
     // Get the updated data for the grey dataset
     const updatedGreyDataset = JSONSDATASET.greyData({ count: newLabelCount, min: 0, max: 10000 });
+    const updatedWhiteDataset = JSONSDATASET.whiteData({ count: newLabelCount, min: 0, max: 10000 });
     
     // Update the chart's dataset[0] values
     chart.data.datasets[0].data = updatedGreyDataset; // Set the updated dataset values
+    chart.data.datasets[1].data = updatedWhiteDataset; // Set the updated dataset values
     
     // Update the chart's labels
     chart.data.labels = updatedLabels; // Set the updated labels
