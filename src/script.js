@@ -14,18 +14,7 @@ const newChart = data => {
   const DATASET1 = data.data.datasetg; // Array of datasets
   const DATASET2 = data.data.datasetw; // Array of datasets
 
-  const animationPlugin = {
-    beforeDatasetDraw: function(chart) {
-      const datasets = chart.config.data.datasets;
-      datasets.forEach((dataset, index) => {
-        const meta = chart.getDatasetMeta(index);
-        meta.data.forEach((element, i) => {
-          element._model.x += Math.sin((i + index) * Math.PI) * 5;
-          element._model.y += Math.cos((i + index) * Math.PI) * 5;
-        });
-      });
-    }
-  };
+  
 
   const JSONSDATASET = {
     days: function(config) {
@@ -142,7 +131,7 @@ const newChart = data => {
           display: true,
           text: 'Chart.js Bar Chart - Stacked',
         },
-        animationPlugin: true,
+        
       },
       responsive: true,
       scales: {
