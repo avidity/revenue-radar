@@ -2,6 +2,7 @@
 let chart;
 
 
+
 const DATA_COUNT = 30; // Initial count of months
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 1000 };
 
@@ -13,7 +14,18 @@ const newChart = data => {
   const DATASET1 = data.data.datasetg; // Array of datasets
   const DATASET2 = data.data.datasetw; // Array of datasets
 
-
+  const animationPlugin = {
+    beforeDatasetDraw: function(chart) {
+      const datasets = chart.config.data.datasets;
+      datasets.forEach((dataset, index) => {
+        const meta = chart.getDatasetMeta(index);
+        meta.data.forEach((element, i) => {
+          element._model.x += Math.sin((i + index) * Math.PI) * 5;
+          element._model.y += Math.cos((i + index) * Math.PI) * 5;
+        });
+      });
+    }
+  };
 
   const JSONSDATASET = {
     days: function(config) {
@@ -74,17 +86,26 @@ const newChart = data => {
       {
         label: 'Dataset 1',
         data: JSONSDATASET.greyData(NUMBER_CFG),
+        type: 'bar',
         backgroundColor: 'rgb(172, 172, 172)',
         borderColor: 'rgb(0, 0, 0)',
         borderWidth: 3,
-        stack: 'Stack 0',
-        animations: {
+        
+        options: {
           animation: {
-            duration: 1000,
-            easing: 'linear',
-            loop: false,
-          },
+            
+            onComplete: () => {
+              delayed = true;
+            },
+            delay: (context) => {
+              let delay = 0;
+              if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+              }
+              return delay;
+            },
         },
+      },
       },
       {
         label: 'Dataset 2',
@@ -92,15 +113,21 @@ const newChart = data => {
         backgroundColor: 'rgb(228, 228, 228)',
         borderColor: 'rgb(0, 0, 0)',
         borderWidth: 3,
-        stack: 'Stack 0',
-        animations: {
+        
+        options: {
           animation: {
-            duration: 1000,
-            easing: 'easeInOutQuad',
-            delay: 1000,
-            loop: false,
-          },
+            onComplete: () => {
+              delayed = true;
+            },
+            delay: (context) => {
+              let delay = 0;
+              if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+              }
+              return delay;
+            },
         },
+      },
       },
     ],
   };
@@ -115,15 +142,18 @@ const newChart = data => {
           display: true,
           text: 'Chart.js Bar Chart - Stacked',
         },
+        animationPlugin: true,
       },
       responsive: true,
       scales: {
         x: {
+          stacked: true,
           grid: {
             display: false,
           },
         },
         y: {
+          stacked: true,
           grid: {
             display: false,
           },
@@ -286,6 +316,5 @@ function getData(){
   .catch(error => console.error('Error loading JSON:', error));
 }
 
-getData();
 
 let theCount;
