@@ -8,23 +8,23 @@ function addData(config) {
   const timeSelect = document.getElementById('time-select');
   const selectedOption = timeSelect.value;
 
-  let databaseDirect = "../sample-data/last--month.json"; //Default value
+  let databaseDirect = config.datasetPaths[0]; //Default value
   // Determine the new label count based on the selected option
   switch (selectedOption) {
     case '30days':
-      databaseDirect = "../sample-data/last-30-days.json";
+      databaseDirect = config.datasetPaths[1];
       break;
     case '90days':
-      databaseDirect = "../sample-data/last-90-days.json";
+      databaseDirect = config.datasetPaths[2];
       break;
     case '6month':
-      databaseDirect = "../sample-data/last-6-months.json";
+      databaseDirect = config.datasetPaths[3];
       break;
     case 'year':
-      databaseDirect = "../sample-data/last-year.json";
+      databaseDirect = config.datasetPaths[4];
       break;
     default:
-      databaseDirect = "../sample-data/last-month.json";
+      databaseDirect = config.datasetPaths[0];
       break;
   }
 
