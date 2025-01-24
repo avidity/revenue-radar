@@ -1,38 +1,47 @@
 
+
   
 
 // Function to update chart with new data based on the selected option
 function addData(config) {
+
   const timeSelect = document.getElementById('time-select');
   const selectedOption = timeSelect.value;
 
-  let newLabelCount = 30;
-
+  let databaseDirect = config.datasetPaths[0]; //Default value
   // Determine the new label count based on the selected option
   switch (selectedOption) {
     case '30days':
-      newLabelCount = 30;
+      databaseDirect = config.datasetPaths[1];
       break;
     case '90days':
-      newLabelCount = 90;
+      databaseDirect = config.datasetPaths[2];
       break;
     case '6month':
-      newLabelCount = 6;
+      databaseDirect = config.datasetPaths[3];
       break;
     case 'year':
-      newLabelCount = 12;
+      databaseDirect = config.datasetPaths[4];
       break;
     default:
-      newLabelCount = 30;
+      databaseDirect = config.datasetPaths[0];
       break;
   }
 
-  const theCount = newLabelCount;
 
   const newData = (data) => {
     const DATAS = data.data.labels; // Array of labels
     const DATASET1 = data.data.datasetg; // Array of datasets
     const DATASET2 = data.data.datasetw; // Array of datasets
+
+    let theCount;
+
+    if(DATASET1[0].data.length>=DATASET2[0].data.length){
+      theCount=DATASET1[0].data.length;
+    }
+    else{
+      theCount=DATASET2[0].data.length
+    }
 
     const JSONSDATASET = {
       days: function (config) {
@@ -164,15 +173,9 @@ function addData(config) {
   };
 
 
- fetch("../sample-data/last-30-days.json")
+ fetch(databaseDirect)
   .then(response => response.json())
   .then(newData)
   .catch(error => console.error('Error loading JSON:', error));
 
 }
-
-  
-
-
-
-
