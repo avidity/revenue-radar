@@ -10,7 +10,7 @@
 <body >
 
 <div id="slct">
-  <select name="timeline" id="time-select" onchange="addData()" >
+  <select name="timeline" id="time-select" onchange="updateChart()" >
     <option value="" id="currentValue">Current month vs previous year’s month  </option> 
     <option value="30days">Last 30 days</option>
     <option value="90days">Last 90 days</option>
@@ -27,8 +27,20 @@
 
 <script  src="script.js"></script>
 <script>
-  window.onload = function () {
-    addData();
+  function updateChart() {
+    
+    addData( {
+      colors: {
+        backgroundColor1: '#FF0000',
+        borderColor1: 'rgb(15, 03, 123)',
+        backgroundColor2: '#00FF00',
+        borderColor2: 'green',
+      }
+    });
+  
+};
+window.onload = function() {
+  updateChart();
 };
 </script>
 

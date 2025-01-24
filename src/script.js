@@ -1,13 +1,14 @@
- 
+
+
+  
 
 // Function to update chart with new data based on the selected option
-function addData() {
+function addData(config) {
+
   const timeSelect = document.getElementById('time-select');
   const selectedOption = timeSelect.value;
 
-  let databaseDirect = "../sample-data/last--month.json";
-
-
+  let databaseDirect = "../sample-data/last--month.json"; //Default value
   // Determine the new label count based on the selected option
   switch (selectedOption) {
     case '30days':
@@ -83,8 +84,8 @@ function addData() {
         {
           label: 'Dataset 1',
           data: JSONSDATASET.greyData(),
-          backgroundColor: 'rgb(172, 172, 172)',
-          borderColor: 'rgb(0, 0, 0)',
+          backgroundColor: config.colors.backgroundColor1,
+          borderColor: config.colors.borderColor1,
           borderWidth: 3,
           stack: 'Stack 0',
          
@@ -92,8 +93,8 @@ function addData() {
         {
           label: 'Dataset 2',
           data: JSONSDATASET.whiteData(),
-          backgroundColor: 'rgb(228, 228, 228)',
-          borderColor: 'rgb(0, 0, 0)',
+          backgroundColor: config.colors.backgroundColor2,
+          borderColor: config.colors.borderColor2,
           borderWidth: 3,
           stack: 'Stack 0',
         },
