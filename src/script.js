@@ -79,6 +79,7 @@ function addData() {
           borderColor: 'rgb(0, 0, 0)',
           borderWidth: 3,
           stack: 'Stack 0',
+         
         },
         {
           label: 'Dataset 2',
@@ -102,10 +103,23 @@ function addData() {
     }
 
     // Create a new chart instance and attach it to the canvas
+    let delayed;
     const chart = new Chart(ctx, {
       type: 'bar', // or 'line', 'pie', etc.
       data: newdata,
       options: {
+        animation: {
+          onComplete: () => {
+            delayed = true;
+          },
+          delay: (context) => {
+            let delay = 0;
+            if (context.type === 'data' && context.mode === 'default' && !delayed) {
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
+            }
+            return delay;
+          },
+        },
         plugins: {
           title: {
             display: true,
@@ -115,11 +129,13 @@ function addData() {
         responsive: true,
         scales: {
           x: {
+            stacked: true,
             grid: {
               display: false,
             },
           },
           y: {
+            stacked: true,
             grid: {
               display: false,
             },
