@@ -5,22 +5,21 @@
 // Function to update chart with new data based on the selected option
 function addData(config) {
 
-  const timeSelect = document.getElementById('time-select');
-  const selectedOption = timeSelect.value;
+  var selectedOption = document.getElementById("time-select").selectedIndex;
 
   let databaseDirect = config.datasetPaths[0]; //Default value
   // Determine the new label count based on the selected option
   switch (selectedOption) {
-    case '30days':
+    case 1:
       databaseDirect = config.datasetPaths[1];
       break;
-    case '90days':
+    case 2:
       databaseDirect = config.datasetPaths[2];
       break;
-    case '6month':
+    case 3:
       databaseDirect = config.datasetPaths[3];
       break;
-    case 'year':
+    case 4:
       databaseDirect = config.datasetPaths[4];
       break;
     default:
