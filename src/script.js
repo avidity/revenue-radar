@@ -101,7 +101,7 @@ function addData(config) {
       ],
     };
 
-    const canvas = document.getElementById(config.canvasRef);
+    const canvas = document.querySelector(config.canvasRef);
     const ctx = canvas.getContext('2d');
 
     // Check if a chart instance is already attached to the canvas
