@@ -5,11 +5,12 @@
 // Function to update chart with new data based on the selected option
 function addData(config) {
 
-  var selectedOption = document.getElementById("time-select").selectedIndex;
+  const selectedOption = document.querySelector(config.dropdownRef);
+  const selectedIndex = selectedOption.selectedIndex;
 
   let databaseDirect = config.datasetPaths[0]; //Default value
   // Determine the new label count based on the selected option
-  switch (selectedOption) {
+  switch (selectedIndex) {
     case 1:
       databaseDirect = config.datasetPaths[1];
       break;
