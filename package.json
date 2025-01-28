@@ -1,10 +1,9 @@
 {
   "name": "revenue-radar",
-  "version": "1.0.0",
-  "description": "A block chart with animations and passed json file values changeable from dropdown menue",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "A block chart with animations and passed json file values changeable from dropdown menu",
+  "browser": "src/script.js",
   "scripts": {
-    "test": "npm run test"
   },
   "repository": {
     "type": "git",
@@ -13,8 +12,8 @@
   "keywords": [
     "blockChart",
     "chart",
-    "dropdownMenue",
-    "2Databasas"
+    "dropdownMenu",
+    "2Datasets"
   ],
   "author": "Tymofii, Bohdan",
   "license": "MIT",
