@@ -176,11 +176,11 @@ function processData(data, config){
 // Function to update chart with new data based on the selected option
 function runChart(config) {
 
-  databaseDirect = getPath(config);
+  const databaseDirect = getPath(config);
 
   const newData = (data) => {
     
-    newdata = processData(data, config);
+    const newdata = processData(data, config);
 
     setupChart(newdata);
   };
