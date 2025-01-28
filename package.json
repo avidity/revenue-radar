@@ -1,0 +1,24 @@
+{
+  "name": "revenue-radar",
+  "version": "0.1.0",
+  "description": "A block chart with animations and passed json file values changeable from dropdown menu",
+  "browser": "src/script.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avidity/revenue-radar.git"
+  },
+  "keywords": [
+    "blockChart",
+    "chart",
+    "dropdownMenu",
+    "2Datasets"
+  ],
+  "author": "Tymofii, Bohdan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avidity/revenue-radar/issues"
+  },
+  "homepage": "https://github.com/avidity/revenue-radar#readme"
+}
