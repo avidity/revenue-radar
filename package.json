@@ -1,0 +1,23 @@
+{
+  "name": "revenue-radar",
+  "version": "1.0.0",
+  "description": "the graph",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avidity/revenue-radar.git"
+  },
+  "keywords": [
+    "Chart",
+    "myChart"
+  ],
+  "author": "Bohdan Bailema",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avidity/revenue-radar/issues"
+  },
+  "homepage": "https://github.com/avidity/revenue-radar#readme"
+}
