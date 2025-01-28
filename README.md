@@ -51,3 +51,5 @@ Include the following script in your HTML file to use the `addData` function:
     updateChart();
   };
 </script>
+
+```
