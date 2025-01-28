@@ -178,17 +178,13 @@ function runChart(config) {
 
   const databaseDirect = getPath(config);
 
-  const newData = (data) => {
-    
-    const newdata = processData(data, config);
 
-    setupChart(newdata);
-  };
 
 
  fetch(databaseDirect)
   .then(response => response.json())
-  .then(newData)
+  .then((data) => processData(data,config))
+  .then(setupChart)
   .catch(error => console.error('Error loading JSON:', error));
 
 }
