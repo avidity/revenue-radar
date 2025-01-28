@@ -98,17 +98,17 @@ function setupChart(newdata){
 }
 
 function processData(data, config){
-  const DATAS = data.data.labels; // Array of labels
-    const DATASET1 = data.data.datasetg; // Array of datasets
-    const DATASET2 = data.data.datasetw; // Array of datasets
+  const labels = data.data.labels; // Array of labels
+    const dataset1 = data.data.datasetg; // Array of datasets
+    const dataset2 = data.data.datasetw; // Array of datasets
 
     let theCount;
 
-    if(DATASET1[0].data.length>=DATASET2[0].data.length){
-      theCount=DATASET1[0].data.length;
+    if(dataset1[0].data.length>=dataset2[0].data.length){
+      theCount=dataset1[0].data.length;
     }
     else{
-      theCount=DATASET2[0].data.length
+      theCount=dataset2[0].data.length
     }
 
     const JSONSDATASET = {
@@ -118,7 +118,7 @@ function processData(data, config){
         const section = cfg.section;
         const values = [];
         for (let i = 0; i < count; ++i) {
-          values.push(DATAS[i % 30].substring(0, section)); // Get the label substring based on the section
+          values.push(labels[i % 30].substring(0, section)); // Get the label substring based on the section
         }
         return values;
       },
@@ -127,7 +127,7 @@ function processData(data, config){
         const count = theCount; // Default to 30
         const data = [];
         for (let i = 0; i < count; ++i) {
-          const value = DATASET1[0].data[i]; // Accessing the data array from the first dataset
+          const value = dataset1[0].data[i]; // Accessing the data array from the first dataset
           data.push(value);
         }
         return data;
@@ -137,7 +137,7 @@ function processData(data, config){
         const count = theCount; // Default to 30
         const data = [];
         for (let i = 0; i < count; ++i) {
-          const value = DATASET2[0].data[i]; // Accessing the data array from the first dataset
+          const value = dataset2[0].data[i]; // Accessing the data array from the first dataset
           data.push(value);
         }
         return data;
@@ -145,9 +145,8 @@ function processData(data, config){
     };
 
     // Initial data setup for chart
-    const labels = JSONSDATASET.days({ count: theCount });
     const newdata = {
-      labels: labels,
+      labels: JSONSDATASET.days({ count: theCount }),
       datasets: [
         {
           label: 'Dataset 1',
