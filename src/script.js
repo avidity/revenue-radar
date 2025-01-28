@@ -1,20 +1,21 @@
+
 function getPath(config){
   const timeSelect = document.getElementById('time-select');
   const selectedOption = timeSelect.value;
 
   let databaseDirect = config.datasetPaths[0]; //Default value
   // Determine the new label count based on the selected option
-  switch (selectedIndex) {
-    case 1:
+  switch (selectedOption) {
+    case '30days':
       databaseDirect = config.datasetPaths[1];
       break;
-    case 2:
+    case '90days':
       databaseDirect = config.datasetPaths[2];
       break;
-    case 3:
+    case '6month':
       databaseDirect = config.datasetPaths[3];
       break;
-    case 4:
+    case 'year':
       databaseDirect = config.datasetPaths[4];
       break;
     default:
