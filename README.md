@@ -20,7 +20,7 @@ The `addData` function accepts a configuration object with the following propert
   - `borderColor1`: Border color for the first dataset.
   - `backgroundColor2`: Background color for the second dataset.
   - `borderColor2`: Border color for the second dataset.
-- `datasetPaths`: An array of paths to JSON files containing the data for the chart. Each dataset array index refers to the selected option index of the <select> tag. Chart will adapt automatically to the quantity of dataset elements in the selected path.
+- `datasetPaths`: An array of paths to JSON files containing the data for the chart. Each dataset array index refers to the selected option index of the `<select>` tag. Chart will adapt automatically to the quantity of dataset elements in the selected path.
 - `canvasRef`: A selector for the canvas element where the chart will be rendered.
 - `dropdownRef`: A selector for the dropdown element used to select the dataset.
 
@@ -30,7 +30,6 @@ The `addData` function accepts a configuration object with the following propert
 Include the following script in your HTML file to use the `addData` function:
 
 ```html
-
 <script src="script.js"></script>
 <script>
   function updateChart() {
@@ -51,5 +50,4 @@ Include the following script in your HTML file to use the `addData` function:
     updateChart();
   };
 </script>
-
 ```
