@@ -12,10 +12,10 @@
 <div id="slct">
   <select name="timeline" id="time-select" onchange="updateChart()" >
     <option value="" id="currentValue">Current month vs previous year’s month  </option> 
-    <option>Last 30 days</option>
-    <option>Last 90 days</option>
-    <option>Last 6 month</option>
-    <option>Last year</option>
+    <option value="30days">Last 30 days</option>
+    <option value="90days">Last 90 days</option>
+    <option value="6month">Last 6 month</option>
+    <option value="year">Last year</option>
   </select>
 </div>
 
@@ -29,7 +29,7 @@
 <script>
   function updateChart() {
     
-    addData( {
+    runChart( {
       colors: {
         backgroundColor1: '#FF0000',
         borderColor1: 'rgb(15, 03, 123)',
@@ -37,8 +37,6 @@
         borderColor2: 'green',
       },
       datasetPaths: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"],
-      canvasRef: '#myChart',
-      dropdownRef: "#time-select",
     });
   
 };
