@@ -1,21 +1,20 @@
 
 function getPath(config){
-  const timeSelect = document.getElementById('time-select');
-  const selectedOption = timeSelect.value;
+  const selectedOption = document.querySelector(config.dropdownRef);
+  const selectedIndex = selectedOption.selectedIndex;
 
-  let databaseDirect = config.datasetPaths[0]; //Default value
-  // Determine the new label count based on the selected option
-  switch (selectedOption) {
-    case '30days':
+  let databaseDirect;
+  switch (selectedIndex) {
+    case 1:
       databaseDirect = config.datasetPaths[1];
       break;
-    case '90days':
+    case 2:
       databaseDirect = config.datasetPaths[2];
       break;
-    case '6month':
+    case 3:
       databaseDirect = config.datasetPaths[3];
       break;
-    case 'year':
+    case 4:
       databaseDirect = config.datasetPaths[4];
       break;
     default:
@@ -25,8 +24,8 @@ function getPath(config){
   return databaseDirect;
 }
 
-function setupChart(newdata){
-  const canvas = document.getElementById('myChart');
+function setupChart(newdata, config){
+  const canvas = document.querySelector(config.canvasRef);
     const ctx = canvas.getContext('2d');
 
     // Check if a chart instance is already attached to the canvas
@@ -183,7 +182,7 @@ function runChart(config) {
  fetch(databaseDirect)
   .then(response => response.json())
   .then((data) => processData(data,config))
-  .then(setupChart)
+  .then((newdata) => setupChart(newdata, config))
   .catch(error => console.error('Error loading JSON:', error));
 
 }
