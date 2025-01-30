@@ -33,7 +33,7 @@ Include the following script in your HTML file to use the `addData` function:
 <script src="script.js"></script>
 <script>
   function updateChart() {
-    addData({
+    runChart({
       colors: {
         backgroundColor1: '#FF0000',
         borderColor1: 'rgb(15, 03, 123)',
