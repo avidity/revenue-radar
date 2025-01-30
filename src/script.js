@@ -1,5 +1,5 @@
 
-function getPath(config){
+export function getPath(config){
   const selectedOption = document.querySelector(config.dropdownRef);
   const selectedIndex = selectedOption.selectedIndex;
 
@@ -24,7 +24,7 @@ function getPath(config){
   return databaseDirect;
 }
 
-function setupChart(newdata, config){
+export function setupChart(newdata, config){
   const canvas = document.querySelector(config.canvasRef);
     const ctx = canvas.getContext('2d');
 
@@ -96,7 +96,7 @@ function setupChart(newdata, config){
     canvas.dataset.chartInstance = chart.id;
 }
 
-function processData(data, config){
+export function processData(data, config){
   const labels = data.data.labels; // Array of labels
     const dataset1 = data.data.datasetg; // Array of datasets
     const dataset2 = data.data.datasetw; // Array of datasets
@@ -172,7 +172,7 @@ function processData(data, config){
   
 
 // Function to update chart with new data based on the selected option
-function runChart(config) {
+export function runChart(config) {
 
   const databaseDirect = getPath(config);
 
