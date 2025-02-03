@@ -3,7 +3,9 @@
   "version": "0.1.2",
   "description": "A block chart with animations and passed json file values changeable from dropdown menu",
   "browser": "src/script.js",
-  "scripts": {},
+  "scripts": {
+    "lint": "npm run lint"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/avidity/revenue-radar.git"
