@@ -1,27 +1,27 @@
 
-function getPath(config){
+function getData(config, jsonDatasets){
   const selectedOption = document.querySelector(config.dropdownRef);
   const selectedIndex = selectedOption.selectedIndex;
 
-  let databaseDirect;
+  let database;
   switch (selectedIndex) {
     case 1:
-      databaseDirect = config.datasetPaths[1];
+      database = jsonDatasets[1];
       break;
     case 2:
-      databaseDirect = config.datasetPaths[2];
+      database = jsonDatasets[2];
       break;
     case 3:
-      databaseDirect = config.datasetPaths[3];
+      database = jsonDatasets[3];
       break;
     case 4:
-      databaseDirect = config.datasetPaths[4];
+      database = jsonDatasets[4];
       break;
     default:
-      databaseDirect = config.datasetPaths[0];
+      database = jsonDatasets[0];
       break;
   }
-  return databaseDirect;
+  return database;
 }
 
 function setupChart(newdata, config){
@@ -173,13 +173,25 @@ function processData(data, config){
 
 // Function to update chart with new data based on the selected option
 function runChart(config) {  // eslint-disable-line no-unused-vars
+  let jsonDatasets;
+  if(config.inlineDatasets!=null){
+    jsonDatasets = config.inlineDatasets;
+  }
+  else{
+    jsonDatasets = config.urlDatasets;
+  }
+  const database = getData(config, jsonDatasets);
 
-  const databaseDirect = getPath(config);
-
- fetch(databaseDirect)
-  .then(response => response.json())
-  .then((data) => processData(data,config))
-  .then((newdata) => setupChart(newdata, config))
-  .catch(error => console.error('Error loading JSON:', error));
+  if(config.inlineDatasets!=null){
+    const newdata = processData(database,config);
+    setupChart(newdata, config);
+  }
+  else{
+    fetch(database)
+      .then(response => response.json())
+      .then((data) => processData(data,config))
+      .then((newdata) => setupChart(newdata, config))
+      .catch(error => console.error('Error loading JSON:', error));
+  }
 
 }
