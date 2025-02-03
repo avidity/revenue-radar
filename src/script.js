@@ -1,5 +1,5 @@
 
-export function getPath(config){
+function getPath(config){
   const selectedOption = document.querySelector(config.dropdownRef);
   const selectedIndex = selectedOption.selectedIndex;
 
@@ -24,20 +24,20 @@ export function getPath(config){
   return databaseDirect;
 }
 
-export function setupChart(newdata, config){
+function setupChart(newdata, config){
   const canvas = document.querySelector(config.canvasRef);
     const ctx = canvas.getContext('2d');
 
     // Check if a chart instance is already attached to the canvas
     if (canvas.dataset.chartInstance) {
       // Destroy the existing chart instance
-      const existingChart = Chart.getChart(canvas);
+      const existingChart = Chart.getChart(canvas); // eslint-disable-line no-undef
       if (existingChart) existingChart.destroy();
     }
 
     // Create a new chart instance and attach it to the canvas
     let delayed;
-    const chart = new Chart(ctx, {
+    const chart = new Chart(ctx, {  // eslint-disable-line no-undef
       type: 'bar', // or 'line', 'pie', etc.
       data: newdata,
       options: {
@@ -55,9 +55,20 @@ export function setupChart(newdata, config){
         },
         plugins: {
           title: {
-            display: true,
+            display: false,
             text: 'Chart.js Bar Chart - Stacked',
           },
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'start',
+            labels: {
+              usePointStyle: true,
+              boxWidth: 45,
+              padding: 25,
+            },
+          },
+          
         },
         responsive: true,
         scales: {
@@ -77,18 +88,7 @@ export function setupChart(newdata, config){
             },
           },
         },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            align: 'start',
-            labels: {
-              usePointStyle: true,
-              boxWidth: 45,
-              padding: 25,
-            },
-          },
-        },
+        
       },
     });
 
@@ -96,7 +96,7 @@ export function setupChart(newdata, config){
     canvas.dataset.chartInstance = chart.id;
 }
 
-export function processData(data, config){
+function processData(data, config){
   const labels = data.data.labels; // Array of labels
     const dataset1 = data.data.datasetg; // Array of datasets
     const dataset2 = data.data.datasetw; // Array of datasets
@@ -122,7 +122,7 @@ export function processData(data, config){
         return values;
       },
 
-      greyData: function (config) {
+      greyData: function () {
         const count = theCount; // Default to 30
         const data = [];
         for (let i = 0; i < count; ++i) {
@@ -132,7 +132,7 @@ export function processData(data, config){
         return data;
       },
 
-      whiteData: function (config) {
+      whiteData: function () {
         const count = theCount; // Default to 30
         const data = [];
         for (let i = 0; i < count; ++i) {
@@ -172,12 +172,9 @@ export function processData(data, config){
   
 
 // Function to update chart with new data based on the selected option
-export function runChart(config) {
+function runChart(config) {  // eslint-disable-line no-unused-vars
 
   const databaseDirect = getPath(config);
-
-
-
 
  fetch(databaseDirect)
   .then(response => response.json())
