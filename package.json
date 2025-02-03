@@ -3,6 +3,9 @@
   "version": "0.1.2",
   "description": "A block chart with animations and passed json file values changeable from dropdown menu",
   "browser": "src/script.js",
+  "files": [
+    "src/script.js"
+  ],
   "scripts": {
     "lint": "npm run lint"
   },
