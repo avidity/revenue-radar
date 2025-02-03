@@ -1,10 +1,12 @@
 {
   "name": "revenue-radar",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A block chart with animations and passed json file values changeable from dropdown menu",
   "browser": "src/script.js",
-  "scripts": {
-  },
+  "files": [
+    "src/script.js"
+  ],
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/avidity/revenue-radar.git"
@@ -20,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/avidity/revenue-radar/issues"
   },
-  "homepage": "https://github.com/avidity/revenue-radar#readme"
+  "homepage": "https://github.com/avidity/revenue-radar#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0"
+  }
 }
