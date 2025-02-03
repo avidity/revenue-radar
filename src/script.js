@@ -24,8 +24,8 @@ function getPath(config){
   return databaseDirect;
 }
 
-function setupChart(newdata, config){
-  const canvas = document.querySelector(config.canvasRef);
+function setupChart(newdata, config, chartType, canvasID){
+  const canvas = document.querySelector(canvasID);
     const ctx = canvas.getContext('2d');
 
     // Check if a chart instance is already attached to the canvas
@@ -38,7 +38,7 @@ function setupChart(newdata, config){
     // Create a new chart instance and attach it to the canvas
     let delayed;
     const chart = new Chart(ctx, {  // eslint-disable-line no-undef
-      type: 'bar', // or 'line', 'pie', etc.
+      type: chartType, // or 'line', 'pie', etc.
       data: newdata,
       options: {
         animation: {
@@ -58,7 +58,18 @@ function setupChart(newdata, config){
             display: false,
             text: 'Chart.js Bar Chart - Stacked',
           },
-          legend: {
+          legend: chartType === 'pie' ? {
+            display: true,
+            position: 'top',
+            align: 'start',
+            labels: {
+              // Customize legend labels if needed
+              filter: (legendItem, chartData) => {
+                  // Make sure only the two datasets (grey and white) show in the legend
+                  return ['Grey Data', 'White Data'].includes(legendItem.text);
+              }
+          },
+          }: {
             display: true,
             position: 'top',
             align: 'start',
@@ -69,9 +80,10 @@ function setupChart(newdata, config){
             },
           },
           
+          
         },
         responsive: true,
-        scales: {
+        scales: chartType === 'pie' ? {} : {
           x: {
             stacked: true,
             grid: {
@@ -96,7 +108,7 @@ function setupChart(newdata, config){
     canvas.dataset.chartInstance = chart.id;
 }
 
-function processData(data, config){
+function processData(data, config, chartType) {
   const labels = data.data.labels; // Array of labels
     const dataset1 = data.data.datasetg; // Array of datasets
     const dataset2 = data.data.datasetw; // Array of datasets
@@ -142,7 +154,41 @@ function processData(data, config){
         return data;
       },
     };
-
+    
+    if (chartType === 'pie') {
+      return {
+        labels: JSONSDATASET.days({ count: theCount }), // Keep the labels
+        datasets: [{
+            label: 'Comparison',
+            data: [...JSONSDATASET.greyData(), ...JSONSDATASET.whiteData()], // Concatenate greyData and whiteData
+            backgroundColor: [
+                ...JSONSDATASET.greyData().map(() => config.colors.backgroundColor1), // Color for greyData
+                ...JSONSDATASET.whiteData().map(() => config.colors.backgroundColor2) // Color for whiteData
+            ], // Assign alternating colors to the concatenated data
+            borderColor: [
+              ...JSONSDATASET.greyData().map(() => config.colors.borderColor1), // Color for greyData
+              ...JSONSDATASET.whiteData().map(() => config.colors.borderColor2) // Color for whiteData
+          ],
+            borderWidth: 2,
+            hoverOffset: 4
+        }],
+        options: {
+          plugins: {
+              legend: {
+                  labels: {
+                      // Customize legend labels if needed
+                      filter: (legendItem, chartData) => {
+                          // Make sure only the two datasets (grey and white) show in the legend
+                          return ['Grey Data', 'White Data'].includes(legendItem.text);
+                      }
+                  }
+              }
+          }
+      }
+    };
+    
+  }
+  
     // Initial data setup for chart
     const newdata = {
       labels: JSONSDATASET.days({ count: theCount }),
@@ -178,8 +224,12 @@ function runChart(config) {  // eslint-disable-line no-unused-vars
 
  fetch(databaseDirect)
   .then(response => response.json())
-  .then((data) => processData(data,config))
-  .then((newdata) => setupChart(newdata, config))
+  .then(data => {
+    const canvasRefs = config.canvasRef; // Array of canvas IDs
+    setupChart(processData(data, config, 'bar'), config, 'bar', canvasRefs[0]);
+    setupChart(processData(data, config, 'line'), config, 'line', canvasRefs[1]);
+    setupChart(processData(data, config, 'pie'), config, 'pie', canvasRefs[2]);
+})
   .catch(error => console.error('Error loading JSON:', error));
 
 }

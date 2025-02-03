@@ -22,7 +22,13 @@
 
 
 <div id="theChart">
-  <canvas id="myChart"></canvas>
+  <canvas id="myBarChart"></canvas>
+</div>
+<div id="theChart">
+  <canvas id="myLineChart"></canvas>
+</div>
+<div id="theChart">
+  <canvas id="myPieChart"></canvas>
 </div>
 
 <script  src="script.js"></script>
@@ -36,7 +42,7 @@
         backgroundColor2: '#00FF00',
         borderColor2: 'green',
       },
-      canvasRef: '#myChart',
+      canvasRef: ['#myBarChart', '#myLineChart', '#myPieChart'],
       dropdownRef: "#time-select",
       datasetPaths: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"],
     });
