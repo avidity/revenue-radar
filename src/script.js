@@ -63,13 +63,48 @@ function setupChart(newdata, config, chartType, canvasID){
             position: 'top',
             align: 'start',
             labels: {
-              // Customize legend labels if needed
-              filter: (legendItem, chartData) => {
-                  // Make sure only the two datasets (grey and white) show in the legend
-                  return ['Grey Data', 'White Data'].includes(legendItem.text);
+              usePointStyle: true,
+              generateLabels: (chart) => {
+                const dataset = chart.data.datasets[0];
+                return [
+                  {
+                    text: 'Dataset 1',
+                    fillStyle: config.colors.backgroundColor1,
+                    strokeStyle: config.colors.borderColor1,
+                    lineWidth: 2,
+                    hidden: dataset.data.slice(0, dataset.data.length / 2).every((d, i) => chart.getDatasetMeta(0).data[i].hidden),
+                  },
+                  {
+                    text: 'Dataset 2',
+                    fillStyle: config.colors.backgroundColor2,
+                    strokeStyle: config.colors.borderColor2,
+                    lineWidth: 2,
+                    hidden: dataset.data.slice(dataset.data.length / 2).every((d, i) => chart.getDatasetMeta(0).data[i + dataset.data.length / 2].hidden),
+                  }
+                ];
               }
-          },
-          }: {
+            },
+            onClick: (e, legendItem, legend) => {
+              const chart = legend.chart;
+              const datasetMeta = chart.getDatasetMeta(0);
+              const datasetSize1 = newdata.datasets[0].data.length / 2;
+              const datasetSize2 = newdata.datasets[0].data.length - datasetSize1;
+          
+              if (legendItem.text === 'Dataset 1') {
+                // Toggle visibility for Dataset 1 (First half of data points)
+                for (let i = 0; i < datasetSize1; i++) {
+                  datasetMeta.data[i].hidden = !datasetMeta.data[i].hidden;
+                }
+              } else {
+                // Toggle visibility for Dataset 2 (Second half of data points)
+                for (let i = datasetSize1; i < datasetSize1 + datasetSize2; i++) {
+                  datasetMeta.data[i].hidden = !datasetMeta.data[i].hidden;
+                }
+              }
+          
+              chart.update();
+            }
+          } : {
             display: true,
             position: 'top',
             align: 'start',
@@ -77,9 +112,9 @@ function setupChart(newdata, config, chartType, canvasID){
               usePointStyle: true,
               boxWidth: 45,
               padding: 25,
-            },
-          },
-          
+            }
+          }
+            
           
         },
         responsive: true,
@@ -156,38 +191,27 @@ function processData(data, config, chartType) {
     };
     
     if (chartType === 'pie') {
+      const theCountPie = JSONSDATASET.days({ count: theCount }).concat(JSONSDATASET.days({ count: theCount }));
       return {
-        labels: JSONSDATASET.days({ count: theCount }), // Keep the labels
+        labels: theCountPie, // Keep the labels
         datasets: [{
-            label: 'Comparison',
             data: [...JSONSDATASET.greyData(), ...JSONSDATASET.whiteData()], // Concatenate greyData and whiteData
             backgroundColor: [
                 ...JSONSDATASET.greyData().map(() => config.colors.backgroundColor1), // Color for greyData
                 ...JSONSDATASET.whiteData().map(() => config.colors.backgroundColor2) // Color for whiteData
-            ], // Assign alternating colors to the concatenated data
+            ],
             borderColor: [
-              ...JSONSDATASET.greyData().map(() => config.colors.borderColor1), // Color for greyData
-              ...JSONSDATASET.whiteData().map(() => config.colors.borderColor2) // Color for whiteData
-          ],
+              ...JSONSDATASET.greyData().map(() => config.colors.borderColor1), // Border for greyData
+              ...JSONSDATASET.whiteData().map(() => config.colors.borderColor2) // Border for whiteData
+            ],
             borderWidth: 2,
             hoverOffset: 4
         }],
-        options: {
-          plugins: {
-              legend: {
-                  labels: {
-                      // Customize legend labels if needed
-                      filter: (legendItem, chartData) => {
-                          // Make sure only the two datasets (grey and white) show in the legend
-                          return ['Grey Data', 'White Data'].includes(legendItem.text);
-                      }
-                  }
-              }
-          }
-      }
-    };
+       
+      };
+    }
     
-  }
+    
   
     // Initial data setup for chart
     const newdata = {
