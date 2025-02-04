@@ -106,8 +106,40 @@
               }
           }
       ]*/
-      urlDatasets: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"]
+      urlDatasets: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"],
 
+      /*inlinePiesets: [
+        {
+            data: {
+                period: "last_30_days",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [35, 60, 85, 45, 30]
+            }
+        },
+        {
+            data:{
+                period: "last_90_days",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [120, 180, 240, 150, 110]
+            }
+        },
+        {
+            data: {
+                period: "last_6_months",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [300, 45, 600, 375, 280]
+            }
+        },
+        {
+            data:{
+                period: "last_year",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [6000, 900, 1200, 750, 560]
+            }
+        }
+        ],*/
+
+      urlPiesets: ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-months-sales.json", "../sample-data/last-year-sales.json"],
     });
   
 };
