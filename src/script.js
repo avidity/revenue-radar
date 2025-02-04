@@ -86,7 +86,7 @@ function setupChart(newdata, chartType, canvasID) {
           },
         },
         y: {
-          stacked: true,
+          stacked: chartType === 'line' ? false: true,
           grid: {
             display: false,
           },
