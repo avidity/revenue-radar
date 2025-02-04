@@ -166,7 +166,7 @@ function processData(data, config) {
   return newdata;
 }
 
-function processPieData(pieData, config) {
+function processPieData(pieData) {
   const labels = pieData.data.products; // Array of labels for the pie chart
   const dataset = pieData.data.sells; // Array of data for the pie chart
 
@@ -229,13 +229,13 @@ function runChart(config) {  // eslint-disable-line no-unused-vars
   // Handle pie chart
   if(config.chartType.toLowerCase() == "pie"){
     if(typeof dataBase != "string"){
-      setupPieChart(processPieData(dataBase, config), config.canvasRef); // Assuming the 3rd canvas is for the pie chart
+      setupPieChart(processPieData(dataBase), config.canvasRef); // Assuming the 3rd canvas is for the pie chart
     } else{
       fetch(dataBase)
       .then(response => response.json())
       .then(data => {
         console.log(data); // Log the data to see if it's being fetched properly
-        setupPieChart(processPieData(data, config), config.canvasRef);
+        setupPieChart(processPieData(data), config.canvasRef);
       })
       .catch(error => console.error('Error loading JSON:', error));
   

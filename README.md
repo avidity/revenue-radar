@@ -46,18 +46,7 @@ Use following script in your HTML file as an example of using the `runChart` fun
       canvasRef: '#myBarChart',
       dropdownRef: "#time-select",
       dataset:  [
-          {
-              type: "bar",
-              data: {
-                  labels: ["January 2025", "February 2025", "March 2025", "April 2025", "May 2025", "June 2025"],
-                  datasetg: [
-                      { data: [16800, 17200, 18000, 17500, 17000, 16500] }
-                  ],
-                  datasetw: [
-                      { data: [16000, 16500, 17000, 17500, 18000, 18500] }
-                  ]
-              }
-          },
+          "../sample-data/last-month.json",
           {
               type: "bar",
               data: {
@@ -124,13 +113,20 @@ Use following script in your HTML file as an example of using the `runChart` fun
     chartType: "PIE",
       canvasRef: '#myPieChart',
       dropdownRef: "#time-select",
-      dataset:  ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"]
+      dataset:  ["../sample-data/last-30-days-sales.json", "../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"]
     });
     runChart( {
     chartType: "Pie",
       canvasRef: '#myPieChart2',
       dropdownRef: "#time-select",
       dataset:  [
+        {
+            data: {
+                period: "last_30_days",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [35, 60, 85, 45, 30]
+            }
+        },
         {
             data: {
                 period: "last_30_days",
@@ -161,7 +157,8 @@ Use following script in your HTML file as an example of using the `runChart` fun
         }
         ],
     });
-  };
+  
+};
 
   window.onload = function() {
     updateChart();

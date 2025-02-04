@@ -117,13 +117,20 @@
     chartType: "PIE",
       canvasRef: '#myPieChart',
       dropdownRef: "#time-select",
-      dataset:  ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"]
+      dataset:  ["../sample-data/last-30-days-sales.json", "../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"]
     });
     runChart( {
     chartType: "Pie",
       canvasRef: '#myPieChart2',
       dropdownRef: "#time-select",
       dataset:  [
+        {
+            data: {
+                period: "last_30_days",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [35, 60, 85, 45, 30]
+            }
+        },
         {
             data: {
                 period: "last_30_days",
