@@ -125,8 +125,8 @@ function setupChart(newdata, config, chartType, canvasID){
               display: false,
             },
           },
-          y: {
-            stacked: true,
+          y : {
+            stacked: chartType === 'line' ? false: true,
             grid: {
               display: false,
             },
@@ -212,31 +212,35 @@ function processData(data, config, chartType) {
     }
     
     
+    
   
-    // Initial data setup for chart
-    const newdata = {
-      labels: JSONSDATASET.days({ count: theCount }),
-      datasets: [
-        {
-          label: 'Dataset 1',
-          data: JSONSDATASET.greyData(),
-          backgroundColor: config.colors.backgroundColor1,
-          borderColor: config.colors.borderColor1,
-          borderWidth: 3,
-          stack: 'Stack 0',
-         
-        },
-        {
-          label: 'Dataset 2',
-          data: JSONSDATASET.whiteData(),
-          backgroundColor: config.colors.backgroundColor2,
-          borderColor: config.colors.borderColor2,
-          borderWidth: 3,
-          stack: 'Stack 0',
-        },
-      ],
-    };
-
+    
+    
+      const newdata = {
+        labels: JSONSDATASET.days({ count: theCount }),
+        datasets: [
+          {
+            label: 'Dataset 1',
+            data: JSONSDATASET.greyData(),
+            backgroundColor: config.colors.backgroundColor1,
+            borderColor: config.colors.borderColor1,
+            borderWidth: 3,
+            stack: 'Stack 0',
+           
+          },
+          {
+            label: 'Dataset 2',
+            data: JSONSDATASET.whiteData(),
+            backgroundColor: config.colors.backgroundColor2,
+            borderColor: config.colors.borderColor2,
+            borderWidth: 3,
+            stack: 'Stack 0',
+          },
+        ],
+      };
+  
+    
+   
     return newdata;
 }
   
