@@ -1,281 +1,280 @@
 
-function getData(config, jsonDatasets){
+function getData(config, jsonDatasets, jsonPiesets) {
   const selectedOption = document.querySelector(config.dropdownRef);
   const selectedIndex = selectedOption.selectedIndex;
 
-  let database;
+  let database = {
+    dataset: undefined,
+    pieset: undefined
+  };
   switch (selectedIndex) {
     case 1:
-      database = jsonDatasets[1];
+      database.dataset = jsonDatasets[1];
+      database.pieset = jsonPiesets[0];
       break;
     case 2:
-      database = jsonDatasets[2];
+      database.dataset = jsonDatasets[2];
+      database.pieset = jsonPiesets[1];
       break;
     case 3:
-      database = jsonDatasets[3];
+      database.dataset = jsonDatasets[3];
+      database.pieset = jsonPiesets[2];
       break;
     case 4:
-      database = jsonDatasets[4];
+      database.dataset = jsonDatasets[4];
+      database.pieset = jsonPiesets[3];
       break;
     default:
-      database = jsonDatasets[0];
+      database.dataset = jsonDatasets[0];
+      database.pieset = jsonPiesets[0];
       break;
   }
   return database;
 }
 
-function setupChart(newdata, config, chartType, canvasID){
+function setupChart(newdata, chartType, canvasID) {
   const canvas = document.querySelector(canvasID);
-    const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
 
-    // Check if a chart instance is already attached to the canvas
-    if (canvas.dataset.chartInstance) {
-      // Destroy the existing chart instance
-      const existingChart = Chart.getChart(canvas); // eslint-disable-line no-undef
-      if (existingChart) existingChart.destroy();
-    }
+  // Check if a chart instance is already attached to the canvas
+  if (canvas.dataset.chartInstance) {
+    // Destroy the existing chart instance
+    const existingChart = Chart.getChart(canvas); // eslint-disable-line no-undef
+    if (existingChart) existingChart.destroy();
+  }
 
-    // Create a new chart instance and attach it to the canvas
-    let delayed;
-    const chart = new Chart(ctx, {  // eslint-disable-line no-undef
-      type: chartType, // or 'line', 'pie', etc.
-      data: newdata,
-      options: {
-        animation: {
-          onComplete: () => {
-            delayed = true;
-          },
-          delay: (context) => {
-            let delay = 0;
-            if (context.type === 'data' && context.mode === 'default' && !delayed) {
-              delay = context.dataIndex * 300 + context.datasetIndex * 100;
-            }
-            return delay;
-          },
+  // Create a new chart instance and attach it to the canvas
+  let delayed;
+  const chart = new Chart(ctx, {  // eslint-disable-line no-undef
+    type: chartType, // or 'line', 'pie', etc.
+    data: newdata,
+    options: {
+      animation: {
+        onComplete: () => {
+          delayed = true;
         },
-        plugins: {
-          title: {
-            display: false,
-            text: 'Chart.js Bar Chart - Stacked',
-          },
-          legend: chartType === 'pie' ? {
-            display: true,
-            position: 'top',
-            align: 'start',
-            labels: {
-              usePointStyle: true,
-              generateLabels: (chart) => {
-                const dataset = chart.data.datasets[0];
-                return [
-                  {
-                    text: 'Dataset 1',
-                    fillStyle: config.colors.backgroundColor1,
-                    strokeStyle: config.colors.borderColor1,
-                    lineWidth: 2,
-                    hidden: dataset.data.slice(0, dataset.data.length / 2).every((d, i) => chart.getDatasetMeta(0).data[i].hidden),
-                  },
-                  {
-                    text: 'Dataset 2',
-                    fillStyle: config.colors.backgroundColor2,
-                    strokeStyle: config.colors.borderColor2,
-                    lineWidth: 2,
-                    hidden: dataset.data.slice(dataset.data.length / 2).every((d, i) => chart.getDatasetMeta(0).data[i + dataset.data.length / 2].hidden),
-                  }
-                ];
-              }
-            },
-            onClick: (e, legendItem, legend) => {
-              const chart = legend.chart;
-              const datasetMeta = chart.getDatasetMeta(0);
-              const datasetSize1 = newdata.datasets[0].data.length / 2;
-              const datasetSize2 = newdata.datasets[0].data.length - datasetSize1;
-          
-              if (legendItem.text === 'Dataset 1') {
-                // Toggle visibility for Dataset 1 (First half of data points)
-                for (let i = 0; i < datasetSize1; i++) {
-                  datasetMeta.data[i].hidden = !datasetMeta.data[i].hidden;
-                }
-              } else {
-                // Toggle visibility for Dataset 2 (Second half of data points)
-                for (let i = datasetSize1; i < datasetSize1 + datasetSize2; i++) {
-                  datasetMeta.data[i].hidden = !datasetMeta.data[i].hidden;
-                }
-              }
-          
-              chart.update();
-            }
-          } : {
-            display: true,
-            position: 'top',
-            align: 'start',
-            labels: {
-              usePointStyle: true,
-              boxWidth: 45,
-              padding: 25,
-            }
+        delay: (context) => {
+          let delay = 0;
+          if (context.type === 'data' && context.mode === 'default' && !delayed) {
+            delay = context.dataIndex * 300 + context.datasetIndex * 100;
           }
-            
-          
+          return delay;
         },
-        responsive: true,
-        scales: chartType === 'pie' ? {} : {
-          x: {
-            stacked: true,
-            grid: {
-              display: false,
-            },
-          },
-          y : {
-            stacked: chartType === 'line' ? false: true,
-            grid: {
-              display: false,
-            },
-            ticks: {
-              callback: () => '',
-            },
-          },
-        },
-        
       },
-    });
+      plugins: {
+        title: {
+          display: false,
+          text: 'Chart.js Bar Chart - Stacked',
+        },
+        legend: {
+          display: true,
+          position: 'top',
+          align: 'start',
+          labels: {
+            usePointStyle: true,
+            boxWidth: 45,
+            padding: 25,
+          }
+        }
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+          grid: {
+            display: false,
+          },
+        },
+        y: {
+          stacked: chartType === 'line' ? false: true,
+          grid: {
+            display: false,
+          },
+          ticks: {
+            callback: () => '',
+          },
+        },
+      },
+    },
+  });
 
-    // Attach the new chart instance to the canvas element
-    canvas.dataset.chartInstance = chart.id;
+  // Attach the new chart instance to the canvas element
+  canvas.dataset.chartInstance = chart.id;
 }
 
-function processData(data, config, chartType) {
+function processData(data, config) {
   const labels = data.data.labels; // Array of labels
-    const dataset1 = data.data.datasetg; // Array of datasets
-    const dataset2 = data.data.datasetw; // Array of datasets
+  const dataset1 = data.data.datasetg; // Array of datasets
+  const dataset2 = data.data.datasetw; // Array of datasets
 
-    let theCount;
+  let theCount;
 
-    if(dataset1[0].data.length>=dataset2[0].data.length){
-      theCount=dataset1[0].data.length;
-    }
-    else{
-      theCount=dataset2[0].data.length
-    }
+  if (dataset1[0].data.length >= dataset2[0].data.length) {
+    theCount = dataset1[0].data.length;
+  } else {
+    theCount = dataset2[0].data.length;
+  }
 
-    const JSONSDATASET = {
-      days: function (config) {
-        const cfg = config || {};
-        const count = theCount; // Default to 30
-        const section = cfg.section;
-        const values = [];
-        for (let i = 0; i < count; ++i) {
-          values.push(labels[i % 30].substring(0, section)); // Get the label substring based on the section
-        }
-        return values;
+  const JSONSDATASET = {
+    days: function (config) {
+      const cfg = config || {};
+      const count = theCount; // Default to 30
+      const section = cfg.section;
+      const values = [];
+      for (let i = 0; i < count; ++i) {
+        values.push(labels[i % 30].substring(0, section)); // Get the label substring based on the section
+      }
+      return values;
+    },
+
+    greyData: function () {
+      const count = theCount; // Default to 30
+      const data = [];
+      for (let i = 0; i < count; ++i) {
+        const value = dataset1[0].data[i]; // Accessing the data array from the first dataset
+        data.push(value);
+      }
+      return data;
+    },
+
+    whiteData: function () {
+      const count = theCount; // Default to 30
+      const data = [];
+      for (let i = 0; i < count; ++i) {
+        const value = dataset2[0].data[i]; // Accessing the data array from the first dataset
+        data.push(value);
+      }
+      return data;
+    },
+  };
+
+  // Initial data setup for chart
+  const newdata = {
+    labels: JSONSDATASET.days({ count: theCount }),
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: JSONSDATASET.greyData(),
+        backgroundColor: config.colors.backgroundColor1,
+        borderColor: config.colors.borderColor1,
+        borderWidth: 3,
+        stack: 'Stack 0',
       },
-
-      greyData: function () {
-        const count = theCount; // Default to 30
-        const data = [];
-        for (let i = 0; i < count; ++i) {
-          const value = dataset1[0].data[i]; // Accessing the data array from the first dataset
-          data.push(value);
-        }
-        return data;
+      {
+        label: 'Dataset 2',
+        data: JSONSDATASET.whiteData(),
+        backgroundColor: config.colors.backgroundColor2,
+        borderColor: config.colors.borderColor2,
+        borderWidth: 3,
+        stack: 'Stack 0',
       },
+    ],
+  };
 
-      whiteData: function () {
-        const count = theCount; // Default to 30
-        const data = [];
-        for (let i = 0; i < count; ++i) {
-          const value = dataset2[0].data[i]; // Accessing the data array from the first dataset
-          data.push(value);
-        }
-        return data;
-      },
-    };
-    
-    if (chartType === 'pie') {
-      const theCountPie = JSONSDATASET.days({ count: theCount }).concat(JSONSDATASET.days({ count: theCount }));
-      return {
-        labels: theCountPie, // Keep the labels
-        datasets: [{
-            data: [...JSONSDATASET.greyData(), ...JSONSDATASET.whiteData()], // Concatenate greyData and whiteData
-            backgroundColor: [
-                ...JSONSDATASET.greyData().map(() => config.colors.backgroundColor1), // Color for greyData
-                ...JSONSDATASET.whiteData().map(() => config.colors.backgroundColor2) // Color for whiteData
-            ],
-            borderColor: [
-              ...JSONSDATASET.greyData().map(() => config.colors.borderColor1), // Border for greyData
-              ...JSONSDATASET.whiteData().map(() => config.colors.borderColor2) // Border for whiteData
-            ],
-            borderWidth: 2,
-            hoverOffset: 4
-        }],
-       
-      };
-    }
-    
-    
-    
-  
-    
-    
-      const newdata = {
-        labels: JSONSDATASET.days({ count: theCount }),
-        datasets: [
-          {
-            label: 'Dataset 1',
-            data: JSONSDATASET.greyData(),
-            backgroundColor: config.colors.backgroundColor1,
-            borderColor: config.colors.borderColor1,
-            borderWidth: 3,
-            stack: 'Stack 0',
-           
-          },
-          {
-            label: 'Dataset 2',
-            data: JSONSDATASET.whiteData(),
-            backgroundColor: config.colors.backgroundColor2,
-            borderColor: config.colors.borderColor2,
-            borderWidth: 3,
-            stack: 'Stack 0',
-          },
-        ],
-      };
-  
-    
-   
-    return newdata;
+  return newdata;
 }
-  
 
-// Function to update chart with new data based on the selected option
+function processPieData(pieData, config) {
+  const labels = pieData.data.products; // Array of labels for the pie chart
+  const dataset = pieData.data.sells; // Array of data for the pie chart
+
+  const pieDataSet = {
+    labels: labels,
+    datasets: [{
+      data: dataset,
+      backgroundColor: config.colors.pieBackgroundColors,
+      borderColor: config.colors.pieBorderColor,
+      borderWidth: 1,
+    }],
+  };
+
+  return pieDataSet;
+}
+
+function setupPieChart(pieData, canvasID) {
+  const canvas = document.querySelector(canvasID);
+  const ctx = canvas.getContext('2d');
+
+  // Check if a chart instance is already attached to the canvas
+  if (canvas.dataset.chartInstance) {
+    // Destroy the existing chart instance
+    const existingChart = Chart.getChart(canvas); // eslint-disable-line no-undef
+    if (existingChart) existingChart.destroy();
+  }
+
+  // Create a new chart instance for the pie chart and attach it to the canvas
+  const pieChart = new Chart(ctx, {  // eslint-disable-line no-undef
+    type: 'pie', // Pie chart
+    data: pieData,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            usePointStyle: true,
+            boxWidth: 20,
+          },
+        },
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              return tooltipItem.label + ': ' + tooltipItem.raw + '%'; // Show percentage
+            },
+          },
+        },
+      },
+    },
+  });
+
+  // Attach the new pie chart instance to the canvas element
+  canvas.dataset.chartInstance = pieChart.id;
+}
+
 function runChart(config) {  // eslint-disable-line no-unused-vars
   let jsonDatasets;
-  if(config.inlineDatasets!=null){
+  if(config.inlineDatasets != null) {
     jsonDatasets = config.inlineDatasets;
-  }
-  else{
+  } else {
     jsonDatasets = config.urlDatasets;
   }
-  const database = getData(config, jsonDatasets);
 
-
-
- 
-  if(config.inlineDatasets!=null){
-    const canvasRefs = config.canvasRef; // Array of canvas IDs
-      setupChart(processData(database, config, 'bar'), config, 'bar', canvasRefs[0]);
-      setupChart(processData(database, config, 'line'), config, 'line', canvasRefs[1]);
-      setupChart(processData(database, config, 'pie'), config, 'pie', canvasRefs[2]);
+  let jsonPiesets;
+  if(config.inlinePiesets != null) {
+    jsonPiesets = config.inlinePiesets;
+  } else {
+    jsonPiesets = config.urlPiesets;
   }
-  else{
+
+  const dataBase = getData(config, jsonDatasets, jsonPiesets);
+  const piebase = dataBase.pieset;
+  const database = dataBase.dataset;
+  
+  const canvasRefs = config.canvasRef; // Array of canvas IDs
+  // Handle pie chart
+  if(config.inlinePiesets!=null){
+    setupPieChart(processPieData(piebase, config), canvasRefs[2]); // Assuming the 3rd canvas is for the pie chart
+  } else{
+    fetch(piebase)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data); // Log the data to see if it's being fetched properly
+      setupPieChart(processPieData(data, config), canvasRefs[2]);
+    })
+    .catch(error => console.error('Error loading JSON:', error));
+
+  }
+
+  if(config.inlineDatasets != null) {
+    setupChart(processData(database, config), config, 'bar', canvasRefs[0]);
+    setupChart(processData(database, config), config, 'line', canvasRefs[1]);
+  } else {
     fetch(database)
     .then(response => response.json())
     .then(data => {
-      const canvasRefs = config.canvasRef; // Array of canvas IDs
-      setupChart(processData(data, config, 'bar'), config, 'bar', canvasRefs[0]);
-      setupChart(processData(data, config, 'line'), config, 'line', canvasRefs[1]);
-      setupChart(processData(data, config, 'pie'), config, 'pie', canvasRefs[2]);
-      
-  })
-  .catch(error => console.error('Error loading JSON:', error));
+      setupChart(processData(data, config, 'bar'), 'bar', canvasRefs[0]);
+      setupChart(processData(data, config, 'line'), 'line', canvasRefs[1]);
+    })
+    .catch(error => console.error('Error loading JSON:', error));
   }
-
 }

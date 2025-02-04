@@ -22,7 +22,8 @@ The `addData` function accepts a configuration object with the following propert
   - `borderColor2`: Border color for the second dataset.
   - `urlDatasets`: An array of paths to JSON files containing the data for the chart. Each dataset array index refers to the selected option index of the `<select>` tag. Chart will adapt automatically to the quantity of dataset elements in the selected path.
   - `inlineDatasets`: works in the same way as `urlDatasets` but with declaring json datasets inside of it instead of getching a directory.
-  > :warning: **You can only pass one type of datasets**: You can only declare `urlDatasets` or `inlineDatasets` variable
+  > :warning: **You can only pass one type of datasets**: You can only declare `urlDatasets` or `inlineDatasets` variable.
+  - `urlPiesets` and `inlinePiesets`:Work in exact same way as `urlDatasets` and `inlineDatasets` for the pie chart.
   - `canvasRef`: A selector for the canvas element where the chart will be rendered.
   - `dropdownRef`: A selector for the dropdown element used to select the dataset.
 
@@ -104,7 +105,39 @@ Include the following script in your HTML file to use the `addData` function:
               }
           }
       ]*/
-      urlDatasets: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"]
+      urlDatasets: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"],
+      inlinePiesets: [
+        {
+            data: {
+                period: "last_30_days",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [35, 60, 85, 45, 30]
+            }
+        },
+        {
+            data:{
+                period: "last_90_days",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [120, 180, 240, 150, 110]
+            }
+        },
+        {
+            data: {
+                period: "last_6_months",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [300, 45, 600, 375, 280]
+            }
+        },
+        {
+            data:{
+                period: "last_year",
+                products: ["Laptop", "Smartphone", "Headphones", "Smartwatch", "Tablet"],
+                sells: [6000, 900, 1200, 750, 560]
+            }
+        }
+        ],
+
+      //urlPiesets: ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"],
       canvasRef: '#myChart',
       dropdownRef: '#time-select',
     });
