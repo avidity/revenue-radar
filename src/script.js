@@ -32,7 +32,7 @@ function getData(config, jsonDatasets, jsonPiesets) {
   return database;
 }
 
-function setupChart(newdata, config, chartType, canvasID) {
+function setupChart(newdata, chartType, canvasID) {
   const canvas = document.querySelector(canvasID);
   const ctx = canvas.getContext('2d');
 
@@ -102,7 +102,7 @@ function setupChart(newdata, config, chartType, canvasID) {
   canvas.dataset.chartInstance = chart.id;
 }
 
-function processData(data, config, chartType) {
+function processData(data, config) {
   const labels = data.data.labels; // Array of labels
   const dataset1 = data.data.datasetg; // Array of datasets
   const dataset2 = data.data.datasetw; // Array of datasets
@@ -266,14 +266,14 @@ function runChart(config) {  // eslint-disable-line no-unused-vars
   }
 
   if(config.inlineDatasets != null) {
-    setupChart(processData(database, config, 'bar'), config, 'bar', canvasRefs[0]);
-    setupChart(processData(database, config, 'line'), config, 'line', canvasRefs[1]);
+    setupChart(processData(database, config), config, 'bar', canvasRefs[0]);
+    setupChart(processData(database, config), config, 'line', canvasRefs[1]);
   } else {
     fetch(database)
     .then(response => response.json())
     .then(data => {
-      setupChart(processData(data, config, 'bar'), config, 'bar', canvasRefs[0]);
-      setupChart(processData(data, config, 'line'), config, 'line', canvasRefs[1]);
+      setupChart(processData(data, config, 'bar'), 'bar', canvasRefs[0]);
+      setupChart(processData(data, config, 'line'), 'line', canvasRefs[1]);
     })
     .catch(error => console.error('Error loading JSON:', error));
   }
