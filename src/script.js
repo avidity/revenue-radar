@@ -258,9 +258,11 @@ function runChart(config) {  // eslint-disable-line no-unused-vars
     fetch(piebase)
     .then(response => response.json())
     .then(data => {
-      setupPieChart(processPieData(piebase, config), canvasRefs[2]);
+      console.log(data); // Log the data to see if it's being fetched properly
+      setupPieChart(processPieData(data, config), canvasRefs[2]);
     })
     .catch(error => console.error('Error loading JSON:', error));
+
   }
 
   if(config.inlineDatasets != null) {
