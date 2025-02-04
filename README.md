@@ -13,37 +13,39 @@ Or if you don't have Python installed you can download a standalone executable, 
 
 ## Configuration
 
-The `addData` function accepts a configuration object with the following properties:
+The `runChart` function accepts a configuration object with the following properties:
 
-- `colors`: An object containing color configurations for the chart.
+
+  - `dataset`: An array of 5 values which can be both urlsto certain lson files or just json datapassed directly. Each dataset array index refers to the selected option index of the `<select>` tag. Chart will adapt automatically to the quantity of dataset elements in the selected path.
+  - `chartType`: Can be 'bar', 'line', or 'pie'.
+  - `dropdownRef`: A selector for the dropdown element used to select the dataset.
+  - `canvasRef`: A selector for the canvas element used as a space to create the chart.
+  - `colors`: An object containing color configurations for the chart. > :warning:  Colors options can't be used for the 'pie' `chartType`!!!
   - `backgroundColor1`: Background color for the first dataset.
   - `borderColor1`: Border color for the first dataset.
   - `backgroundColor2`: Background color for the second dataset.
   - `borderColor2`: Border color for the second dataset.
-  - `urlDatasets`: An array of paths to JSON files containing the data for the chart. Each dataset array index refers to the selected option index of the `<select>` tag. Chart will adapt automatically to the quantity of dataset elements in the selected path.
-  - `inlineDatasets`: works in the same way as `urlDatasets` but with declaring json datasets inside of it instead of getching a directory.
-  > :warning: **You can only pass one type of datasets**: You can only declare `urlDatasets` or `inlineDatasets` variable.
-  - `urlPiesets` and `inlinePiesets`:Work in exact same way as `urlDatasets` and `inlineDatasets` for the pie chart.
-  - `canvasRef`: A selector for the canvas element where the chart will be rendered.
-  - `dropdownRef`: A selector for the dropdown element used to select the dataset.
 
 
 ## Consuming Code Example
 
-Include the following script in your HTML file to use the `addData` function:
+Use following script in your HTML file as an example of using the `runChart` function:
 
 ```html
 <script src="script.js"></script>
 <script>
   function updateChart() {
-    runChart({
+    runChart( {
+    chartType: "bar",
       colors: {
         backgroundColor1: '#FF0000',
         borderColor1: 'rgb(15, 03, 123)',
         backgroundColor2: '#00FF00',
         borderColor2: 'green',
       },
-      /*inlineDatasets: [
+      canvasRef: '#myBarChart',
+      dropdownRef: "#time-select",
+      dataset:  [
           {
               type: "bar",
               data: {
@@ -104,9 +106,31 @@ Include the following script in your HTML file to use the `addData` function:
                   ]
               }
           }
-      ]*/
-      urlDatasets: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"],
-      inlinePiesets: [
+      ]
+    });
+    runChart( {
+    chartType: "line",
+      colors: {
+        backgroundColor1: '#FF0000',
+        borderColor1: 'rgb(15, 03, 123)',
+        backgroundColor2: '#00FF00',
+        borderColor2: 'green',
+      },
+      canvasRef: '#myLineChart',
+      dropdownRef: "#time-select",
+      dataset:  ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"]
+    });
+    runChart( {
+    chartType: "PIE",
+      canvasRef: '#myPieChart',
+      dropdownRef: "#time-select",
+      dataset:  ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"]
+    });
+    runChart( {
+    chartType: "Pie",
+      canvasRef: '#myPieChart2',
+      dropdownRef: "#time-select",
+      dataset:  [
         {
             data: {
                 period: "last_30_days",
@@ -136,10 +160,6 @@ Include the following script in your HTML file to use the `addData` function:
             }
         }
         ],
-
-      //urlPiesets: ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"],
-      canvasRef: '#myChart',
-      dropdownRef: '#time-select',
     });
   };
 

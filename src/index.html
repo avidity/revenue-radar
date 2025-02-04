@@ -27,36 +27,30 @@
 <div id="theChart">
   <canvas id="myLineChart"></canvas>
 </div>
-<div id="theChart">
-  <canvas id="myPieChart"></canvas>
+<div id="pieCharts">
+    <div id="theChartP">
+        <canvas id="myPieChart"></canvas>
+  </div>
+    <div id="theChartP">
+      <canvas id="myPieChart2"></canvas>
+    </div>
 </div>
 
 <script  src="script.js"></script>
 <script>
   function updateChart() {
-    
     runChart( {
+    chartType: "bar",
       colors: {
         backgroundColor1: '#FF0000',
         borderColor1: 'rgb(15, 03, 123)',
         backgroundColor2: '#00FF00',
         borderColor2: 'green',
       },
-      canvasRef: ['#myBarChart', '#myLineChart', '#myPieChart'],
+      canvasRef: '#myBarChart',
       dropdownRef: "#time-select",
-      /*inlineDatasets: [
-          {
-              type: "bar",
-              data: {
-                  labels: ["January 2025", "February 2025", "March 2025", "April 2025", "May 2025", "June 2025"],
-                  datasetg: [
-                      { data: [16800, 17200, 18000, 17500, 17000, 16500] }
-                  ],
-                  datasetw: [
-                      { data: [16000, 16500, 17000, 17500, 18000, 18500] }
-                  ]
-              }
-          },
+      dataset:  [
+          "../sample-data/last-month.json",
           {
               type: "bar",
               data: {
@@ -105,10 +99,31 @@
                   ]
               }
           }
-      ]*/
-      urlDatasets: ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"],
-
-      inlinePiesets: [
+      ]
+    });
+    runChart( {
+    chartType: "line",
+      colors: {
+        backgroundColor1: '#FF0000',
+        borderColor1: 'rgb(15, 03, 123)',
+        backgroundColor2: '#00FF00',
+        borderColor2: 'green',
+      },
+      canvasRef: '#myLineChart',
+      dropdownRef: "#time-select",
+      dataset:  ["../sample-data/last-month.json", "../sample-data/last-30-days.json", "../sample-data/last-90-days.json", "../sample-data/last-6-months.json", "../sample-data/last-year.json"]
+    });
+    runChart( {
+    chartType: "PIE",
+      canvasRef: '#myPieChart',
+      dropdownRef: "#time-select",
+      dataset:  ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"]
+    });
+    runChart( {
+    chartType: "Pie",
+      canvasRef: '#myPieChart2',
+      dropdownRef: "#time-select",
+      dataset:  [
         {
             data: {
                 period: "last_30_days",
@@ -138,8 +153,6 @@
             }
         }
         ],
-
-      //urlPiesets: ["../sample-data/last-30-days-sales.json", "../sample-data/last-90-days-sales.json", "../sample-data/last-6-month-sales.json", "../sample-data/last-year-sales.json"],
     });
   
 };
