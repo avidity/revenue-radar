@@ -4,7 +4,16 @@
     height: 500px;
     width: 1500px;
 }
-
+#theChartP{
+    display: inline;
+    padding: 1%;
+    background-color: rgb(237, 240, 247);
+    height: 500px;
+    width: 750px;
+}
+#pieCharts{
+    display: flex;
+}
 
 #time-select{
     background: none repeat scroll 0 0 #ffffff;
