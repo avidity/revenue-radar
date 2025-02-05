@@ -3,24 +3,7 @@ function getData(config) {
   const selectedOption = document.querySelector(config.dropdownRef);
   const selectedIndex = selectedOption.selectedIndex;
 
-  let database;
-  switch (selectedIndex) {
-    case 1:
-      database = config.dataset[1];
-      break;
-    case 2:
-      database = config.dataset[2];
-      break;
-    case 3:
-      database = config.dataset[3];
-      break;
-    case 4:
-      database = config.dataset[4];
-      break;
-    default:
-      database = config.dataset[0];
-      break;
-  }
+  const database = config.dataset[selectedIndex];
   return database;
 }
 
@@ -229,12 +212,11 @@ function runChart(config) {  // eslint-disable-line no-unused-vars
   // Handle pie chart
   if(config.chartType.toLowerCase() == "pie"){
     if(typeof dataBase != "string"){
-      setupPieChart(processPieData(dataBase), config.canvasRef); // Assuming the 3rd canvas is for the pie chart
+      setupPieChart(processPieData(dataBase), config.canvasRef);
     } else{
       fetch(dataBase)
       .then(response => response.json())
       .then(data => {
-        console.log(data); // Log the data to see if it's being fetched properly
         setupPieChart(processPieData(data), config.canvasRef);
       })
       .catch(error => console.error('Error loading JSON:', error));
